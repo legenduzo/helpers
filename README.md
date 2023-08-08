@@ -9,3 +9,5 @@ Method - The Filenames will be designed to look like oversimplifications sometim
 
 1. **g** - You can interpret g to mean git. It executes git add ., git commit -m 'message', and git push.\
 _Usage Syntax_ g 'commit message'
+
+This is to test if this repo is connected to the right upstream
