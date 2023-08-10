@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# A script that automates compilation, memory leak checks, and code style testing. It is required that you have gcc, valgrind, and betty installed.
+
+c_file="$1"
+output="$2"
+test_file="$3"
+
+if [ -n "$test_file" ]; then
+	gcc -Wall -pedantic -Werror -Wextra -std=gnu89 "$c_file" "$test_file" -o "$output"
+else
+	 gcc -Wall -pedantic -Werror -Wextra -std=gnu89 "$c_file" -o "$output" && ./"$output"
+fi
+
+echo "                                          "
+echo "                                          "
+echo "                                          "
+echo "                                          "
+echo "                                          "
+
+valgrind "$output"
+
+echo "                                          "
+echo "                                          "
+echo "                                          "
+echo "                                          "
+echo "                                          "
+
+betty "$c_file"
