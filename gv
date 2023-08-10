@@ -9,7 +9,7 @@ test_file="$3"
 if [ -n "$test_file" ]; then
 	gcc -Wall -pedantic -Werror -Wextra -std=gnu89 "$c_file" "$test_file" -o "$output"
 else
-	 gcc -Wall -pedantic -Werror -Wextra -std=gnu89 "$c_file" -o "$output" && ./"$output"
+	 gcc -Wall -pedantic -Werror -Wextra -std=gnu89 "$c_file" -o "$output"
 fi
 
 echo "                                          "
@@ -18,7 +18,15 @@ echo "                                          "
 echo "                                          "
 echo "                                          "
 
-valgrind "$output"
+./"$output"
+
+echo "                                          "
+echo "                                          "
+echo "                                          "
+echo "                                          "
+echo "                                          "
+
+valgrind ./"$output"
 
 echo "                                          "
 echo "                                          "
@@ -27,3 +35,9 @@ echo "                                          "
 echo "                                          "
 
 betty "$c_file"
+
+echo "                                          "
+echo "                                          "
+echo "                                          "
+echo "                                          "
+echo "                                          "
