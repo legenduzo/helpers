@@ -7,5 +7,11 @@ Thanks.
 ## File names and meanings
 Method - The Filenames will be designed to look like oversimplifications sometimes, but then, they follow what has come before. ls and pwd for example in unix-like operating systems.
 
-1. **g** - You can interpret g to mean git. It executes git add ., git commit -m 'message', and git push.\
-_Usage Syntax_ g 'commit message'.
+1. **g** - This is used to execute `git` commands. It executes `git add .`, `git commit -m 'message'`, and `git push`.  
+### Usage Syntax  
+> g 'commit message'.  
+
+2. **gv** - This is used to execute compilation commands. It executes `gcc` and includes multiple error checkecks for the c89 targets, then it executes `valgrind` to check for memory leaks, and then executes `betty` to check for clean code practices.  
+### Usage Syntax
+> gv your_c_filename output_filename test_filename
+Note that including `test_filename` is optional.
