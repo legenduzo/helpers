@@ -10,14 +10,14 @@ Method - The Filenames will be designed to look like oversimplifications sometim
 
 
 
-####g
+#### g
 This is used to execute `git` commands. It executes `git add .`, `git commit -m 'message'`, and `git push`.  
 ###### Usage Syntax  
 > g 'commit message'.  
 
 
 
-####gv
+#### gv
 This is used to execute compilation commands. It executes `gcc` and includes multiple error checkecks for the c89 targets, then it executes `valgrind` to check for memory leaks, and then executes `betty` to check for clean code practices.  
 ###### Usage Syntax
 > gv `your_c_filename` `output_filename` `test_filename`  
