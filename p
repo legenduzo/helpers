@@ -1,7 +1,7 @@
 #!/bin/bash
 
-files=($1*)
-main="$1"*main*
+files=("$1"*)
+main=""
 
 echo "====== files ====="
 
@@ -9,23 +9,17 @@ for file in "${files[@]}"; do
     echo "$file"
     if [[ ! $file == *main* ]]; then
         pycodestyle "$file"
+    else
+	    main="$file"
     fi
     chmod +x "$file"
 done
 
-echo "                                          "
-echo "                                          "
-echo "                                          "
-echo "                                          "
-echo "                                          "
+echo "\n\n\n\n\n"
 
 echo "===== now executable ====="
 
-echo "                                          "
-echo "                                          "
-echo "                                          "
-echo "                                          "
-echo "                                          "
+echo "\n\n\n\n\n"
 
 echo "===== function output ====="
 
