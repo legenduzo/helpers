@@ -15,11 +15,11 @@ for file in "${files[@]}"; do
     chmod +x "$file"
 done
 
-echo "\n\n\n\n\n"
+echo -e "\n\n\n\n\n"
 
 echo "===== now executable ====="
 
-echo "\n\n\n\n\n"
+echo -e "\n\n\n\n\n"
 
 echo "===== function output ====="
 
