@@ -22,5 +22,5 @@ if [ -n "$coauthors" ]; then
     coauthors=$(echo "$coauthors" | sed '$d')
 fi
 git add .
-git commit -m "$message" -m "$coauthors"
+git commit -m "$message" -m "" -m "" -m "$coauthors"
 git push
