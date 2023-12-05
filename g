@@ -4,22 +4,23 @@
 # Prints all authors apart from committer
 
 message="$1"
+
 username="$(git config user.name)"
-authors="$(git log --format='%aN <%aE>' | sort -u)"
+useremail="$(git config user.email)"
 
-if [ "$(echo "$authors" | wc -l)" -eq 1 ]; then
-	commit_message="$message"
-else
-	commit_message="$message\n\n\nCo-authored-by: "
+authors=$(git log --format='%aN <%aE>' | grep -v -F "$username <$useremail>" | sort -u)
 
-	for author in $authors; do
-		if [ "$author" != "$username" ]; then
-			commit_message="$commit_message$author\n"
-		fi
-	done
+coauthors=""
+
+for author in $authors; do
+    if [ "$author" != "$username <$useremail>" ]; then
+        coauthors="${coauthors}Co-authored-by: $author"$'\n'
+    fi
+done
+
+if [ -n "$coauthors" ]; then
+    coauthors=$(echo "$coauthors" | sed '$d')
 fi
-
-
 git add .
-git commit -m "$commit_message"
+git commit -m "$message" -m "$coauthors"
 git push
