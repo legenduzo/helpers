@@ -14,15 +14,17 @@ authors=$(git log --format='%aN <%aE>' | grep -v -F "$username <$useremail>" | s
 
 coauthors=""
 
-echo "$authors" | while read -r author; do
+while read -r author; do
     if [ "$author" != "$username <$useremail>" ]; then
         coauthors="${coauthors}Co-authored-by: $author"$'\n'
     fi
-done
+done < <(echo "$authors")
 
 unset IFS # Reset IFS
 
 coauthors=$(echo -n "$coauthors")
+
+echo "$coauthors"
 
 git add .
 git commit -m "$message" -m "" -m "" -m "$coauthors"
