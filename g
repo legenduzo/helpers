@@ -20,7 +20,7 @@ while read -r author; do
     fi
 done < <(echo "$authors")
 
-unset IFS # Reset IFS
+unset IFS # Reset the IFS
 
 coauthors=$(echo -n "$coauthors")
 
