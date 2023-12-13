@@ -25,9 +25,9 @@ unset IFS # Reset the IFS
 coauthors=$(echo -n "$coauthors")
 
 echo "****** This commit was authored by ******"
-echo \n\n
+echo -e "\n\n"
 echo "$coauthors"
-echo \n\n
+echo -e "\n\n"
 
 git add .
 git commit -m "$message" -m "" -m "" -m "$coauthors"
