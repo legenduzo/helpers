@@ -24,7 +24,7 @@ unset IFS # Reset the IFS
 
 coauthors=$(echo -n "$coauthors")
 
-echo "****** This commit was authored by ******"
+echo "****** Co-authors ******"
 echo -e "\n\n"
 echo "$coauthors"
 echo -e "\n\n"
