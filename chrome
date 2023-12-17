@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ "$#" -ne 1 ]; then
-    echo "Usage: chrome file_to_open"
+    echo "Usage: chrome path_to_resource"
     exit 1
 fi
 file=$(wslpath -w "$1")
