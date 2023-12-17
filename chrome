@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 file_to_open"
+    exit 1
+fi
+file=$(wslpath -w "$1")
+chrome_path="/mnt/c/Program Files/Google/Chrome/Application/chrome.exe"
+"$chrome_path" "$file"
