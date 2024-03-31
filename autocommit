@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Task 1: Create .log.txt in the cwd
+touch .log.txt
+
+# Task 2: Export EDITOR=vi if it has not been set
+if [ -z "$EDITOR" ]; then
+    export EDITOR=vi
+fi
+
+# Task 3: Check if .gitignore exists, and if not, create it. Append ".log.txt" to it
+if [ ! -f .gitignore ]; then
+    touch .gitignore
+fi
+if ! grep -Fxq ".log.txt" .gitignore; then
+    echo ".log.txt" >> .gitignore
+fi
+
+# Task 4: Automate crontab -e with a safe approach
+# Define the command to append
+FOLDER_NAME=$(basename "$PWD")
+PATH_TO_CWD=$PWD
+CRON_JOB="*/30 * * * * /bin/bash -c 'echo -e "\n\n\n\n\n" && echo "$(date "+\%H:\%M"): Starting autocommit" && cd $PATH_TO_CWD && git commit -am "$(date "+\%H:\%M") autocommit" && git push && echo "$(date "+\%H:\%M"): progress pushed"' >> $PATH_TO_CWD/.log.txt 2>&1"
+
+# Check if the exact cron job already exists to avoid duplicates
+(crontab -l | grep -Fv "$CRON_JOB"; echo "$CRON_JOB") | crontab -
+
+# Task 4: Print instructions to stdout
+echo 'Auto commits set.'
+echo 'Run "tail -f -n 2 ./.log.txt" in a split terminal to monitor progress'
