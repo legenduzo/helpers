@@ -25,6 +25,13 @@ CRON_JOB="*/30 * * * * /bin/bash -c 'echo -e "\n\n\n\n\n" && echo "$(date "+\%H:
 # Check if the exact cron job already exists to avoid duplicates
 (crontab -l | grep -Fv "$CRON_JOB"; echo "$CRON_JOB") | crontab -
 
-# Task 4: Print instructions to stdout
+# Task 5: Create commitlog command
+cat << 'EOF' > /usr/local/bin/commitlog
+#!/bin/bash
+tail -f "$PATH_TO_CWD/.log.txt"
+EOF
+chmod +x /usr/local/bin/commitlog
+
+# Task 5: Print instructions to stdout
 echo 'Auto commits set.'
-echo 'Run "tail -f -n 2 ./.log.txt" in a split terminal to monitor progress'
+echo 'Run "commitlog" in a split terminal to monitor progress'
