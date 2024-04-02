@@ -16,7 +16,7 @@ if ! grep -Fxq ".log.txt" .gitignore; then
     echo ".log.txt" >> .gitignore
 fi
 
-# Task 4: Automate crontab -e with a safe approach
+# Task 4: Automate commits
 # Define the command to append
 FOLDER_NAME=$(basename "$PWD")
 PATH_TO_CWD=$PWD
@@ -26,12 +26,12 @@ CRON_JOB="*/30 * * * * /bin/bash -c 'echo -e "\n\n\n\n\n" && echo "$(date "+\%H:
 (crontab -l | grep -Fv "$CRON_JOB"; echo "$CRON_JOB") | crontab -
 
 # Task 5: Create commitlog command
-cat << 'EOF' > /usr/local/bin/commitlog
+cat << EOF > /usr/local/bin/commitlog
 #!/bin/bash
 tail -f "$PATH_TO_CWD/.log.txt"
 EOF
 chmod +x /usr/local/bin/commitlog
 
-# Task 5: Print instructions to stdout
+# Task 6: Print instructions to stdout
 echo 'Auto commits set.'
 echo 'Run "commitlog" in a split terminal to monitor progress'
