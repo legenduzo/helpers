@@ -5,6 +5,7 @@ handle_error() {
 }
 
 trap 'handle_error' ERR
+
 currentUser=$(who | awk '{print $1}' | uniq)
 PATH_TO_CWD=$PWD
 
@@ -35,7 +36,7 @@ fi
     #!/bin/bash
     tail -f "$PATH_TO_CWD/.log.txt"
 EOF
-} && chmod +x /usr/local/bin/commitlog
+} && chmod +x /usr/local/bin/commitlog || handle_error
 
 # Task 5: Print instructions to stdout
 echo 'Auto commits set.'
