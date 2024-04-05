@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e # Exit on error
+
 currentUser=$(who | awk '{print $1}' | uniq)
 PATH_TO_CWD=$PWD
 
@@ -24,11 +26,12 @@ else
 fi
 
 # Task 4: Create commitlog command
-cat << EOF > /usr/local/bin/commitlog
-#!/bin/bash
-tail -f "$PATH_TO_CWD/.log.txt"
+{
+    cat << EOF > /usr/local/bin/commitlog
+    #!/bin/bash
+    tail -f "$PATH_TO_CWD/.log.txt"
 EOF
-chmod +x /usr/local/bin/commitlog
+} && chmod +x /usr/local/bin/commitlog
 
 # Task 5: Print instructions to stdout
 echo 'Auto commits set.'
