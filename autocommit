@@ -1,6 +1,10 @@
 #!/bin/bash
-set -e # Exit on error
+handle_error() {
+    echo "Please ensure you have sufficient privileges to run this script. Use sudo"
+    exit 1
+}
 
+trap 'handle_error' ERR
 currentUser=$(who | awk '{print $1}' | uniq)
 PATH_TO_CWD=$PWD
 
