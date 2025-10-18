@@ -21,12 +21,12 @@ if ! grep -Fxq ".log.txt" .gitignore; then
 fi
 
 # Task 3: Automate commits
-CRON_JOB="*/30 * * * * /bin/bash -c 'echo -e \"\n\n\n\n\n\" && echo \"$(date "+\%H:\%M"): Starting autocommit\" && cd $PATH_TO_CWD && git commit -am \"$(date "+\%H:\%M") autocommit\" && git push && echo \"$(date "+\%H:\%M"): progress pushed\"' >> $PATH_TO_CWD/.log.txt 2>&1"
+CRON_JOB="*/20 * * * * /bin/bash -c 'echo -e \"\n\n\n\n\n\" && echo \"\$(date \"+\%H:\%M\"): Starting autocommit\" && cd $PATH_TO_CWD && git commit -am \"\$(date \"+\%H:\%M\") autocommit\" && git push && echo \"\$(date \"+\%H:\%M\"): progress pushed\"' >> $PATH_TO_CWD/.log.txt 2>&1"
 
 # Check if crontab and the exact cron job already exists to avoid duplicates
 if crontab -u "$currentUser" -l &> /dev/null; then
-    (crontab -u "$currentUser" -l | grep -Fv "$CRON_JOB"; echo "$CRON_JOB") | crontab -u "$currentUser" -
-else 
+    (crontab -u "$currentUser" -l | grep -Fv "$CRON_JOB"; echo "$CRON_JOB\n\n") | crontab -u "$currentUser" -
+else
     echo "$CRON_JOB" | crontab -u "$currentUser" -
 fi
 
