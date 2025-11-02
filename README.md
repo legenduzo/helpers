@@ -23,3 +23,8 @@ This is used to execute compilation commands. It executes `gcc` and includes mul
 > gv `your_c_filename` `output_filename` `test_filename`  
 
 Note that including `test_filename` is optional.
+
+## Autocommit for windows
+1. Create an empty `autocommit_registry` and an `autocommit.ps1` file in a location where you write your personal commands. It helps to have that folder as part of the PATH environment variables
+2. Run `notepad $PROFILE` and append the autocommit part of windows_profile's content
+3. Save and use `autocommit` command to activate when Powershell is active in a projet
