@@ -1,0 +1,72 @@
+Set-Alias -Name gmf -Value mergeFlutterflow
+
+Set-Alias -Name c -Value Clear-Host
+
+function mergeFlutterflow {
+    git switch flutterflow
+    git pull
+    git switch dev
+    git merge flutterflow
+}
+
+function prompt {
+    "$((Get-Location).Path | Split-Path -Leaf)> "
+}
+
+# === Autocommit daemon ===
+$AutocommitRegistry = "$env:USERPROFILE\commands\autocommit_registry.json"
+
+if (Test-Path $AutocommitRegistry) {
+    $Path = (Get-Location).Path
+    $Registry = Get-Content $AutocommitRegistry | ConvertFrom-Json
+    $Job = $Registry | Where-Object { $_.Folder -eq $Path }
+
+    if ($Job) {
+        # Check if already running for this folder
+        $ExistingJob = Get-Job -Name ("autocommit_" + ($Path -replace '[\\:]', '_')) -ErrorAction SilentlyContinue
+        if (-not $ExistingJob) {
+
+            # Start as a background job
+            Start-Job -Name ("autocommit_" + ($Path -replace '[\\:]', '_')) -ScriptBlock {
+                param($Folder, $IntervalMinutes, $RegistryPath)
+
+                $Interval = $IntervalMinutes
+                $LastRun = [datetime]$Job.LastRun
+
+                while ($true) {
+                    try {
+                        if ((Get-Date) -ge $LastRun.AddMinutes($Interval)) {
+                            $LogFile = Join-Path $Folder ".log.txt"
+
+                            if (-not (Test-Path $LogFile)) { New-Item $LogFile -ItemType File | Out-Null }
+
+                            Add-Content $LogFile "`n`n`n`n`n"
+                            Add-Content $LogFile "$(Get-Date -Format 'HH:mm'): Starting autocommit for $Folder"
+
+                            Push-Location $Folder
+                            try {
+                                git add .
+                                git commit -am "$(Get-Date -Format 'HH:mm') autocommit" 2>$null
+                                Add-Content $LogFile "$(Get-Date -Format 'HH:mm'): progress pushed"
+                            } catch {
+                                Add-Content $LogFile "$(Get-Date -Format 'HH:mm'): Error - $_"
+                            }
+                            Pop-Location
+
+                            # Update last run in registry
+                            $Registry = Get-Content $RegistryPath | ConvertFrom-Json
+                            $RegistryItem = $Registry | Where-Object { $_.Folder -eq $Folder }
+                            $RegistryItem.LastRun = Get-Date
+                            $Registry | ConvertTo-Json | Set-Content $RegistryPath
+
+                            $LastRun = Get-Date
+                        }
+                    } catch {
+                        Write-Host "Autocommit daemon error: $_"
+                    }
+                    Start-Sleep -Seconds 60
+                }
+            } -ArgumentList $Path, $Job.IntervalMinutes, $AutocommitRegistry
+        }
+    }
+}
